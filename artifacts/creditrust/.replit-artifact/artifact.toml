@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "CrediTrust"
+description = "A polished hackathon MVP for AI-assisted academic credential verification. Users can upload a credential, review extracted signals and document integrity checks, see an explainable trust score against clearly labeled demo registry data, and download a verification report."
+version = "1.0.0"
+id = "artifacts/creditrust"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19375
+
+[services.development]
+run = "pnpm --filter @workspace/creditrust run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/creditrust", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/creditrust/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19375"
+BASE_PATH = "/"

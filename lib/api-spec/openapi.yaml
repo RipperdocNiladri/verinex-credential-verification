@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: credentials
+    description: Credential verification operations
+  - name: dashboard
+    description: Verification dashboard operations
 paths:
   /healthz:
     get:
@@ -24,6 +28,112 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /credentials/upload:
+    post:
+      operationId: uploadCredential
+      tags: [credentials]
+      summary: Upload a credential document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CredentialUploadInput"
+      responses:
+        "201":
+          description: Upload accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadReceipt"
+        "400":
+          description: Invalid upload
+  /credentials/analyze:
+    post:
+      operationId: analyzeCredential
+      tags: [credentials]
+      summary: Start credential analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeCredentialInput"
+      responses:
+        "202":
+          description: Analysis started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisJob"
+        "404":
+          description: Upload not found
+  /credentials/verify:
+    post:
+      operationId: verifyCredential
+      tags: [credentials]
+      summary: Return an explainable verification report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyCredentialInput"
+      responses:
+        "200":
+          description: Verification report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationReport"
+        "404":
+          description: Credential not found
+  /credentials/recent:
+    get:
+      operationId: getRecentCredentials
+      tags: [credentials]
+      summary: List recent verification records
+      responses:
+        "200":
+          description: Recent records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RecentCredential"
+  /credentials/{certificateId}:
+    get:
+      operationId: getCredential
+      tags: [credentials]
+      summary: Get a credential by certificate ID
+      parameters:
+        - name: certificateId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Credential record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationReport"
+        "404":
+          description: Credential not found
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get verification dashboard statistics
+      responses:
+        "200":
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +143,132 @@ components:
           type: string
       required:
         - status
+    CredentialUploadInput:
+      type: object
+      required: [file, fileSize, mimeType]
+      properties:
+        file:
+          type: string
+          description: Sanitized browser file name
+        fileSize:
+          type: number
+        mimeType:
+          type: string
+        fileHash:
+          type: ["string", "null"]
+    UploadReceipt:
+      type: object
+      required: [uploadId, fileName, fileSize, mimeType, receivedAt]
+      properties:
+        uploadId: { type: string }
+        fileName: { type: string }
+        fileSize: { type: number }
+        mimeType: { type: string }
+        receivedAt: { type: string, format: date-time }
+    AnalyzeCredentialInput:
+      type: object
+      required: [uploadId]
+      properties:
+        uploadId: { type: string }
+    AnalysisJob:
+      type: object
+      required: [jobId, uploadId, status, steps]
+      properties:
+        jobId: { type: string }
+        uploadId: { type: string }
+        status: { type: string, enum: [queued, processing, complete] }
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnalysisStep"
+    AnalysisStep:
+      type: object
+      required: [key, label, status]
+      properties:
+        key: { type: string }
+        label: { type: string }
+        status: { type: string, enum: [pending, processing, complete] }
+    VerifyCredentialInput:
+      type: object
+      required: [certificateId]
+      properties:
+        certificateId: { type: string }
+        uploadId: { type: string }
+        fileHash: { type: ["string", "null"] }
+    CredentialRecord:
+      type: object
+      required: [certificateId, studentName, institution, degree, registrationNumber, issueDate, graduationYear, status]
+      properties:
+        certificateId: { type: string }
+        studentName: { type: string }
+        institution: { type: string }
+        degree: { type: string }
+        registrationNumber: { type: string }
+        issueDate: { type: string }
+        graduationYear: { type: number }
+        status: { type: string, enum: [verified, suspicious, invalid] }
+    VerificationSignal:
+      type: object
+      required: [key, label, status, detail]
+      properties:
+        key: { type: string }
+        label: { type: string }
+        status: { type: string, enum: [passed, attention, failed, notChecked] }
+        detail: { type: string }
+        points: { type: number }
+        maxPoints: { type: number }
+    RiskFinding:
+      type: object
+      required: [type, severity, message]
+      properties:
+        type: { type: string }
+        severity: { type: string, enum: [LOW, MEDIUM, HIGH] }
+        message: { type: string }
+    VerificationReport:
+      type: object
+      required: [certificate, score, status, timestamp, signals, findings, documentHash, explanation]
+      properties:
+        certificate:
+          $ref: "#/components/schemas/CredentialRecord"
+        score: { type: number }
+        status: { type: string, enum: [verified, likelyAuthentic, suspicious, invalid] }
+        timestamp: { type: string, format: date-time }
+        signals:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationSignal"
+        findings:
+          type: array
+          items:
+            $ref: "#/components/schemas/RiskFinding"
+        documentHash: { type: string }
+        explanation:
+          type: array
+          items: { type: string }
+    RecentCredential:
+      type: object
+      required: [certificateId, studentName, institution, score, status, verifiedAt]
+      properties:
+        certificateId: { type: string }
+        studentName: { type: string }
+        institution: { type: string }
+        score: { type: number }
+        status: { type: string, enum: [verified, suspicious, invalid] }
+        verifiedAt: { type: string, format: date-time }
+    DashboardStats:
+      type: object
+      required: [total, verified, suspicious, invalid, weekly]
+      properties:
+        total: { type: number }
+        verified: { type: number }
+        suspicious: { type: number }
+        invalid: { type: number }
+        weekly:
+          type: array
+          items:
+            type: object
+            required: [label, count]
+            properties:
+              label: { type: string }
+              count: { type: number }
 

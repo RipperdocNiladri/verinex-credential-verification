@@ -1,0 +1,712 @@
+You are a senior full-stack engineer, AI engineer, cybersecurity engineer, and UI/UX designer.
+
+Build a working MVP web application called:
+
+CREDiTRUST
+AI-Powered Academic Credential Verification & Digital Trust Platform
+
+CONTEXT:
+This is an MVP prototype for a national hackathon problem:
+"Verifying Authenticity of Academic Credentials."
+
+The purpose of the platform is to make academic credential verification faster and more reliable by combining document intelligence, OCR, QR verification, cryptographic hashing, institutional credential records, anomaly analysis, and an explainable trust score.
+
+IMPORTANT:
+This must be a REAL WORKING FULL-STACK MVP, not a static mockup.
+
+The application must run successfully in Replit and be deployable.
+
+Do not build unnecessary features. Prioritize a polished, functional end-to-end verification workflow.
+
+==================================================
+1. CORE USER FLOW
+==================================================
+
+The main workflow must be:
+
+Landing Page
+→ Verify Credential
+→ Upload PDF/JPG/PNG
+→ Process Document
+→ Extract Credential Information
+→ Detect QR Code if present
+→ Calculate SHA-256 document hash
+→ Compare extracted information with a mock institutional registry
+→ Run rule-based authenticity/anomaly analysis
+→ Generate explainable Trust Score
+→ Display detailed Verification Report
+
+The complete workflow must actually work.
+
+==================================================
+2. TECH STACK
+==================================================
+
+Use a practical and reliable stack.
+
+Frontend:
+- React
+- TypeScript
+- Tailwind CSS
+- Modern responsive UI
+- Lucide icons or another lightweight icon library
+
+Backend:
+- Python
+- FastAPI
+
+Document processing:
+- Python
+- PyMuPDF for PDF processing
+- Pillow for image processing
+- Tesseract OCR or another reliable OCR approach available in Replit
+- OpenCV where useful
+- QRCode/pyzbar or another reliable QR detection library
+
+Database:
+- SQLite for MVP
+- SQLAlchemy ORM
+
+Security:
+- SHA-256 hashing
+- Input validation
+- File type validation
+- File size validation
+- Do not expose secret keys in frontend code
+
+The application should be structured so that PostgreSQL can replace SQLite later.
+
+==================================================
+3. UI / UX DESIGN
+==================================================
+
+Create a professional, modern, futuristic but trustworthy cybersecurity/EdTech interface.
+
+Design language:
+- Dark professional interface
+- Deep navy/charcoal background
+- Subtle cyan/blue accent
+- Glassmorphism used sparingly
+- Clean cards
+- Rounded corners
+- Good whitespace
+- Professional typography
+- Accessible contrast
+- Smooth but subtle animations
+
+Do NOT make it look like a gaming website.
+
+The visual identity should communicate:
+TRUST + SECURITY + AI + ACADEMIA
+
+Use the product name:
+CrediTrust
+
+Tagline:
+"Verify. Trust. Credentialize."
+
+==================================================
+4. LANDING PAGE
+==================================================
+
+Create a polished landing page containing:
+
+Navbar:
+- CrediTrust logo/name
+- How It Works
+- Features
+- About
+- Verify Credential button
+
+Hero:
+Headline:
+"Verify Academic Credentials with Confidence."
+
+Subheadline:
+"AI-assisted credential verification combining document intelligence, QR verification, cryptographic integrity checks and institutional records."
+
+Primary CTA:
+"Verify a Credential"
+
+Secondary CTA:
+"See How It Works"
+
+Add a visual representation of a digital academic certificate being analyzed.
+
+Show feature cards:
+
+1. AI Document Analysis
+2. QR Verification
+3. Cryptographic Integrity
+4. Institutional Verification
+5. Explainable Trust Score
+6. Verification Report
+
+Add a "How It Works" section:
+
+Upload
+→ Extract
+→ Verify
+→ Analyze
+→ Score
+→ Report
+
+Add a final CTA.
+
+==================================================
+5. CREDENTIAL VERIFICATION PAGE
+==================================================
+
+Create a dedicated /verify page.
+
+Main area:
+
+"Verify Academic Credential"
+
+Upload component:
+- Drag and drop
+- Browse files
+- PDF/JPG/PNG
+- Maximum file size clearly displayed
+- File preview when possible
+
+Show security notice:
+"Uploaded documents are processed securely for verification."
+
+After upload:
+Show:
+- filename
+- file size
+- file type
+- upload status
+
+Button:
+"Analyze Credential"
+
+==================================================
+6. DOCUMENT PROCESSING
+==================================================
+
+When the user clicks Analyze Credential:
+
+Show a realistic processing interface.
+
+Steps:
+
+1. Upload received
+2. Document preprocessing
+3. OCR extraction
+4. QR detection
+5. Credential field extraction
+6. Hash generation
+7. Institutional verification
+8. Integrity analysis
+9. Trust score calculation
+
+Use a progress indicator.
+
+Do not fake an instant result.
+
+The backend must actually process the document.
+
+==================================================
+7. OCR / FIELD EXTRACTION
+==================================================
+
+Extract likely fields from the uploaded document:
+
+- Candidate/Student Name
+- Institution Name
+- Degree/Course
+- Certificate ID
+- Registration/Roll Number
+- Issue Date
+- Graduation Year
+
+Use OCR where possible.
+
+Create a normalized extracted-data object.
+
+Example:
+
+{
+  "student_name": "...",
+  "institution": "...",
+  "degree": "...",
+  "certificate_id": "...",
+  "registration_number": "...",
+  "issue_date": "...",
+  "graduation_year": "..."
+}
+
+If a field cannot be detected:
+return null and clearly show:
+"Not detected"
+
+Never invent extracted values.
+
+==================================================
+8. QR CODE VERIFICATION
+==================================================
+
+Detect QR codes from the uploaded document.
+
+If QR exists:
+- Decode its contents
+- Display the decoded value safely
+- Determine whether it matches the credential record
+- Never execute arbitrary URLs
+- Treat QR content as untrusted input
+
+If no QR exists:
+show:
+"QR code not detected"
+
+Do not automatically mark the credential as fake only because QR is absent.
+
+==================================================
+9. CRYPTOGRAPHIC HASH
+==================================================
+
+Calculate SHA-256 for the uploaded document.
+
+Display:
+
+Document SHA-256
+[truncated visual representation]
+
+Provide a "Show full hash" option.
+
+Compare the calculated hash with the stored hash when a matching credential exists in the mock registry.
+
+==================================================
+10. MOCK INSTITUTIONAL REGISTRY
+==================================================
+
+Create a SQLite database containing sample credential records.
+
+Include at least 5-10 sample credentials.
+
+Each record should contain:
+
+- certificate_id
+- student_name
+- institution
+- degree
+- registration_number
+- issue_date
+- graduation_year
+- document_hash
+- qr_value
+- status
+
+Create at least three categories of test cases:
+
+A. AUTHENTIC
+All major verification signals match.
+
+B. SUSPICIOUS
+Some information matches but anomalies exist.
+
+C. INVALID
+Credential ID does not exist or important verification signals fail.
+
+Provide a developer/demo seed script so the database can be recreated easily.
+
+IMPORTANT:
+Clearly label these as DEMO / MOCK institutional records.
+Do not imply they are real university records.
+
+==================================================
+11. VERIFICATION ENGINE
+==================================================
+
+Implement a transparent rule-based verification engine for the MVP.
+
+Do NOT claim that the prototype has a perfect AI fraud detector.
+
+Calculate a Trust Score from multiple verification signals.
+
+Example scoring model:
+
+Certificate ID found and matched: +20
+Institution matched: +20
+Student/credential data matched: +15
+QR matched: +15
+Document hash matched: +20
+Date/metadata consistency: +5
+No detected anomalies: +5
+
+Maximum = 100
+
+The exact scoring logic should be clearly documented in the code.
+
+Allow the scoring system to be modified later.
+
+==================================================
+12. ANOMALY / TAMPER ANALYSIS
+==================================================
+
+For the MVP, implement transparent heuristic checks rather than pretending to have a production-grade AI forgery detector.
+
+Possible checks:
+
+- Missing expected fields
+- OCR inconsistencies
+- Credential ID mismatch
+- Institution mismatch
+- QR mismatch
+- Hash mismatch
+- Suspicious metadata where available
+- Unusual document structure
+- Extremely low OCR confidence if available
+
+Return findings with severity:
+
+LOW
+MEDIUM
+HIGH
+
+Example:
+
+{
+  "type": "HASH_MISMATCH",
+  "severity": "HIGH",
+  "message": "Uploaded document hash does not match the registered credential."
+}
+
+==================================================
+13. TRUST SCORE RESULT
+==================================================
+
+Create a visually impressive result page.
+
+Display:
+
+CREDENTIAL TRUST SCORE
+
+92 / 100
+
+Then status:
+
+VERIFIED
+LIKELY AUTHENTIC
+SUSPICIOUS
+INVALID
+
+Use different visual states, but maintain accessibility and do not rely only on color.
+
+Show verification checks:
+
+✓ Certificate ID
+✓ Institution
+✓ Credential data
+✓ QR verification
+✓ Document integrity
+✓ Date consistency
+
+Show warnings separately.
+
+Example:
+
+"2 verification signals require attention."
+
+==================================================
+14. EXPLAINABLE VERIFICATION
+==================================================
+
+This is extremely important.
+
+Never only display:
+
+"Certificate is authentic."
+
+Instead display:
+
+"Why this result?"
+
+Example:
+
+✓ Certificate ID exists in the institutional registry
+✓ Institution matches the registered issuer
+✓ QR content matches the credential record
+✓ SHA-256 hash matches the registered document
+✓ Extracted credential fields are consistent
+
+Or:
+
+✕ Certificate ID not found
+⚠ QR code does not match registry
+✕ Document hash mismatch
+
+The user must understand why the score was generated.
+
+==================================================
+15. VERIFICATION REPORT
+==================================================
+
+Create a professional report section containing:
+
+Credential Information
+- Student
+- Institution
+- Degree
+- Certificate ID
+- Issue Date
+
+Verification Summary
+- Trust score
+- Status
+- Timestamp
+
+Verification Signals
+- QR
+- Hash
+- Registry
+- Data consistency
+
+Risk Findings
+- Severity
+- Explanation
+
+Document Integrity
+- SHA-256 hash
+
+Create a "Download Report" button.
+
+For the MVP, generate a downloadable PDF report if practical.
+If PDF generation causes instability, generate a clean printable HTML report that can be saved as PDF.
+
+==================================================
+16. DASHBOARD
+==================================================
+
+Create a simple dashboard at /dashboard.
+
+Show demo statistics:
+
+- Total credentials verified
+- Verified
+- Suspicious
+- Invalid
+
+Show recent verification records.
+
+Add a chart or simple visualization.
+
+Keep this lightweight.
+
+==================================================
+17. API DESIGN
+==================================================
+
+Create clean FastAPI endpoints.
+
+Suggested endpoints:
+
+POST /api/credentials/upload
+POST /api/credentials/analyze
+POST /api/credentials/verify
+GET /api/credentials/{certificate_id}
+GET /api/dashboard/stats
+GET /api/health
+
+Use Pydantic schemas.
+
+Return proper HTTP status codes.
+
+==================================================
+18. DATABASE DESIGN
+==================================================
+
+Create SQLAlchemy models.
+
+At minimum:
+
+Credential
+VerificationResult
+VerificationFinding
+
+Use migrations or a reliable database initialization approach.
+
+Provide seed data.
+
+==================================================
+19. SECURITY
+==================================================
+
+Implement basic security best practices:
+
+- Validate uploaded file types
+- Limit file size
+- Sanitize filenames
+- Never execute uploaded files
+- Never trust QR URLs
+- Never expose secrets
+- CORS configuration
+- Proper error handling
+- Do not store unnecessary personal information
+- Clearly label mock/demo institutional data
+- Avoid logging sensitive document contents
+
+==================================================
+20. ERROR HANDLING
+==================================================
+
+Handle:
+
+- Invalid file type
+- Oversized file
+- Corrupted PDF
+- OCR failure
+- QR detection failure
+- Missing credential ID
+- Database mismatch
+- Server errors
+
+Display human-readable errors.
+
+Do not expose stack traces to users.
+
+==================================================
+21. PROJECT STRUCTURE
+==================================================
+
+Use a clean structure similar to:
+
+/client
+  /src
+    /components
+    /pages
+    /services
+    /types
+    /hooks
+    /utils
+
+/server
+  /app
+    /api
+    /models
+    /schemas
+    /services
+    /utils
+    main.py
+
+/database
+  seed.py
+
+/uploads
+/reports
+
+README.md
+
+Keep frontend and backend clearly separated.
+
+==================================================
+22. README
+==================================================
+
+Create a comprehensive README containing:
+
+- Project overview
+- Problem being solved
+- Features
+- Architecture
+- Technology stack
+- Setup instructions
+- Environment variables
+- Database setup
+- Seed data
+- How to run locally
+- How to deploy on Replit
+- API documentation
+- MVP limitations
+- Future roadmap
+
+IMPORTANT:
+Clearly distinguish:
+MVP capabilities
+from
+Future planned capabilities.
+
+==================================================
+23. DEMO MODE
+==================================================
+
+Create a "Demo Mode" to make hackathon presentation easy.
+
+Provide three sample credential files or sample test records:
+
+1. Verified Credential
+2. Suspicious Credential
+3. Invalid Credential
+
+The demo should allow judges to quickly experience:
+
+Upload
+→ Analyze
+→ Verify
+→ Result
+
+Do not disguise demo data as real credentials.
+
+Clearly label:
+"DEMO DATA — NOT A REAL INSTITUTIONAL RECORD"
+
+==================================================
+24. FUTURE ROADMAP
+==================================================
+
+Add a small future roadmap section in the UI or About page:
+
+Phase 1:
+MVP verification engine
+
+Phase 2:
+Institution APIs
+
+Phase 3:
+Digital signatures / verifiable credentials
+
+Phase 4:
+Advanced document forensics and ML
+
+Phase 5:
+Scalable institutional network
+
+Blockchain may be considered only where it provides a clear trust/integrity benefit.
+
+==================================================
+25. IMPORTANT PRODUCT PRINCIPLES
+==================================================
+
+1. Do not claim 100% authenticity detection.
+2. Do not claim that AI alone can prove a credential is genuine.
+3. Use "Trust Score", "Verification Result", and "Risk Findings".
+4. Clearly explain the evidence behind every result.
+5. Clearly label all institutional data as mock/demo data.
+6. Build actual backend functionality.
+7. Avoid hardcoded fake results except for explicitly marked demo data.
+8. Make the UI professional enough for a national hackathon presentation.
+9. Make the application responsive for desktop and mobile.
+10. Keep the code understandable because student developers will maintain it.
+
+==================================================
+26. FINAL REQUIREMENT
+==================================================
+
+Before finishing:
+
+- Run the application
+- Fix build errors
+- Fix API errors
+- Test the complete upload → OCR → verification → score workflow
+- Test authentic/suspicious/invalid cases
+- Verify database initialization
+- Verify frontend/backend communication
+- Verify report generation
+- Ensure the Replit deployment works
+
+Do not stop after generating the UI.
+
+I need a functioning end-to-end MVP that I can demonstrate to hackathon judges.
