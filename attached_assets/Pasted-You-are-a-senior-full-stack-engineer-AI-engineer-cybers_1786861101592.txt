@@ -2,7 +2,7 @@ You are a senior full-stack engineer, AI engineer, cybersecurity engineer, and U
 
 Build a working MVP web application called:
 
-CREDiTRUST
+VERINEX
 AI-Powered Academic Credential Verification & Digital Trust Platform
 
 CONTEXT:
@@ -100,7 +100,7 @@ The visual identity should communicate:
 TRUST + SECURITY + AI + ACADEMIA
 
 Use the product name:
-CrediTrust
+VeriNex
 
 Tagline:
 "Verify. Trust. Credentialize."
@@ -112,7 +112,7 @@ Tagline:
 Create a polished landing page containing:
 
 Navbar:
-- CrediTrust logo/name
+- VeriNex logo/name
 - How It Works
 - Features
 - About

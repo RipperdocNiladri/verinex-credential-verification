@@ -25,13 +25,13 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="grain min-h-[100dvh] bg-[hsl(var(--background))]">
       <header className="sticky top-0 z-40 border-b border-[hsl(var(--border)/.8)] bg-[hsl(var(--background)/.9)] backdrop-blur-xl lg:hidden">
         <div className="flex h-16 items-center justify-between px-5">
-          <Link href="/" className="flex items-center gap-2.5" data-testid="link-brand-mobile"><BrandMark /><span className="font-semibold tracking-[-.02em]">CrediTrust</span></Link>
+          <Link href="/" className="flex items-center gap-2.5" data-testid="link-brand-mobile"><BrandMark /><span className="font-semibold tracking-[-.02em]">VeriNex</span></Link>
           <button onClick={() => setMobileOpen((value) => !value)} className="rounded-lg p-2 text-[hsl(var(--muted-foreground))]" aria-label="Toggle navigation" data-testid="button-toggle-navigation">{mobileOpen ? <X size={21} /> : <Menu size={21} />}</button>
         </div>
         {mobileOpen && <nav className="border-t border-[hsl(var(--border))] px-3 py-3">{navItems.map(({ href, label, icon: Icon }) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className={`mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm ${location === href ? 'bg-[hsl(var(--sidebar-accent))] font-semibold text-[hsl(var(--foreground))]' : 'text-[hsl(var(--muted-foreground))]'}`} data-testid={`link-mobile-${label.toLowerCase().replaceAll(' ', '-')}`}><Icon size={17} />{label}</Link>)}</nav>}
       </header>
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] flex-col bg-[hsl(var(--sidebar))] px-4 py-5 text-[hsl(var(--sidebar-foreground))] lg:flex">
-        <Link href="/" className="mb-12 flex items-center gap-2.5 px-2" data-testid="link-brand"><BrandMark /><span className="font-semibold tracking-[-.02em]">CrediTrust</span></Link>
+        <Link href="/" className="mb-12 flex items-center gap-2.5 px-2" data-testid="link-brand"><BrandMark /><span className="font-semibold tracking-[-.02em]">VeriNex</span></Link>
         <div className="mb-3 px-2 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[hsl(var(--sidebar-foreground)/.48)]">Workspace</div>
         <nav className="space-y-1">
           {navItems.map(({ href, label, icon: Icon }) => <Link key={href} href={href} className={`group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors ${location === href ? 'bg-[hsl(var(--sidebar-accent))] font-semibold text-[hsl(var(--sidebar-accent-foreground))]' : 'text-[hsl(var(--sidebar-foreground)/.7)] hover:bg-[hsl(var(--sidebar-accent)/.65)] hover:text-[hsl(var(--sidebar-foreground))]'}`} data-testid={`link-nav-${label.toLowerCase().replaceAll(' ', '-')}`}><span className="flex items-center gap-3"><Icon size={17} />{label}</span>{location === href && <ChevronRight size={15} />}</Link>)}

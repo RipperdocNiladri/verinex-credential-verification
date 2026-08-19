@@ -49,7 +49,7 @@ const demoRegistry: RegistryRecord[] = [
     graduationYear: 2024,
     documentHash:
       "9b91d1c7a4e22a4c6e8c4d9b7e2f8a1c5d3e0b6f6c4a1e2d8f3b5c7a9e0d1f2",
-    qrValue: "CREDiTRUST://CT-2024-019",
+    qrValue: "VERINEX://CT-2024-019",
     status: "verified",
   },
   {
@@ -62,7 +62,7 @@ const demoRegistry: RegistryRecord[] = [
     graduationYear: 2024,
     documentHash:
       "71f0e2b9c3d1489a6fd780bd2c1f4b6e8a9d0c2b4e7f1a5c8d3b6e9f0a2c4d7e",
-    qrValue: "CREDiTRUST://CT-2024-021",
+    qrValue: "VERINEX://CT-2024-021",
     status: "suspicious",
   },
   {
@@ -75,7 +75,7 @@ const demoRegistry: RegistryRecord[] = [
     graduationYear: 2023,
     documentHash:
       "3ac7f190e2d4b6c8f0a1e3d5b7c9f2a4d6e8b0c2f4a6d8e0b1c3f5a7d9e2b4c6",
-    qrValue: "CREDiTRUST://CT-2023-008",
+    qrValue: "VERINEX://CT-2023-008",
     status: "verified",
   },
   {
@@ -88,7 +88,7 @@ const demoRegistry: RegistryRecord[] = [
     graduationYear: 2022,
     documentHash:
       "ce2b54a1d7f3089e6c4a0b2d8f1e5a7c9d3b6f0a2e4c8b1d5f7a9e3c6b0d2f4",
-    qrValue: "CREDiTRUST://CT-2022-114",
+    qrValue: "VERINEX://CT-2022-114",
     status: "verified",
   },
   {
@@ -101,7 +101,7 @@ const demoRegistry: RegistryRecord[] = [
     graduationYear: 2024,
     documentHash:
       "e4c1a9d7f3b0e2c8a6d4f1b9e7c3a0d8f5b2e6c9a1d4f7b0e3c6a8d2f5b9e1",
-    qrValue: "CREDiTRUST://CT-2024-063",
+    qrValue: "VERINEX://CT-2024-063",
     status: "verified",
   },
 ];
